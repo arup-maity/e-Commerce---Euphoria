@@ -34,10 +34,10 @@ const WishList = () => {
                </div>
             ))} */}
 
-         <div className="block border text-center rounded-md space-y-4 p-4">
+         <div className="block border text-center rounded-md space-y-4 p-10">
             <Image src='/icon-1.jpg' width={100} height={100} alt='' className='w-[100px] h-[100px] mx-auto' />
             <p className='text-3xl font-bold'>Your wishlist is empty.</p>
-            <p className='w-6/12 mx-auto'>You don’t have any products in the wishlist yet. You will find a lot
+            <p className='w-6/12 text-sm text-gray-400 mx-auto'>You don’t have any products in the wishlist yet. You will find a lot
                of interesting products on our Shop page.</p>
             <button className='bg-indigo-500 text-white rounded-md py-2 px-5'>Continue Shopping</button>
          </div>

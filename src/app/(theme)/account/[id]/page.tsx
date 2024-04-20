@@ -5,7 +5,7 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 import MyInfo from '@/page-components/account/MyInfo';
 import AddressForm from '@/page-components/account/AddressForm';
 import WishList from '@/page-components/account/WishList';
-import Order from '@/page-components/account/order';
+import Order from '@/page-components/account/Order';
 
 const Account = () => {
    return (

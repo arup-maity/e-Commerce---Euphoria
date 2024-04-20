@@ -1,11 +1,11 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}","./src/page-components/**/*.{js,ts,jsx,tsx,mdx}","./src/admin-components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)"],
+        inter: ["var(--font-inter)"],
         lato: ["var(--font-lato)", "Arial", "Helvetica", "sans-serif"]
       },
       backgroundImage: {
