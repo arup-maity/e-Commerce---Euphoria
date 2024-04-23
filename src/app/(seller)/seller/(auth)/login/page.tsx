@@ -31,7 +31,11 @@ const Login = () => {
    })
    const onSubmit: SubmitHandler<Inputs> = async (data) => {
       await authInstance.post(`/seller-login`, data)
-         .then((response) => router.push('/seller/dashboard'))
+         .then((response) => {
+            if (response.data?.success) {
+               router.push('/seller/dashboard')
+            }
+         })
          .catch((error) => console.log(error))
    }
 
