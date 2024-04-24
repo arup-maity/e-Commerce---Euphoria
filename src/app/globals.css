@@ -50,6 +50,8 @@
    padding-inline-start: var(--sidebar-width);
    transition: padding-inline-start 0.2s ease-in-out;
    will-change: padding-inline-start;
+
+   @apply max-lg:!ps-0
 }
 
 .webx-admin-panel .webx-admin-header {
@@ -94,6 +96,8 @@
    inset-inline-start: 0;
    transition: transform 0.25s ease-in-out, inline-size 0.25s ease-in-out;
    will-change: transform, inline-size;
+
+   @apply max-lg:-translate-x-full
 }
 
 .webx-admin-panel .webx-content-wapper {
@@ -122,3 +126,9 @@
    block-size: 45px;
    padding-inline: 1rem;
 }
+
+/* @media not all and (min-width: 769px) {
+   .webx-admin-panel .webx-admin-sidebar {
+      inline-size: 80px;
+   }
+} */

@@ -9,6 +9,8 @@ import { FiGrid } from "react-icons/fi";
 export default function SellerLayout({ children }: { children: React.ReactNode }) {
    return (
       <div className={clsx(`webx-admin-panel relative w-full h-full bg-gray-100 dark:bg-dark-skin vertical-menu-modern`)}>
+
+
          <div className="webx-admin-sidebar fixed bg-white dark:bg-dark-section flex flex-col start-0 z-50">
             <div className="h-full">
                <div className="webx-admin-logo w-full flex flex-nowrap items-center overflow-hidden py-3 px-4">
@@ -27,6 +29,7 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
                <SellerSidebar />
             </div>
          </div>
+
          <div className="webx-content-wapper relative flex flex-col">
             <div className="webx-admin-header sticky z-50">
                <SellerHeader />
