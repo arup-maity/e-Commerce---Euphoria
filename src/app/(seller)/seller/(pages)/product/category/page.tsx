@@ -7,7 +7,7 @@ const Category = () => {
          <div className="">
             <form action="" className='space-y-4 w-full lg:w-[70%]'>
                <div className="grid grid-cols-1 md:grid-cols-3">
-                  <div className=""><label htmlFor="">vvvf</label></div>
+                  <div className=""><label htmlFor=""></label></div>
                   <div className="md:col-span-2">
                      <div className="w-40 h-40 border border-slate-200 rounded-md"></div>
                   </div>
@@ -29,6 +29,26 @@ const Category = () => {
                   <div className="md:col-span-2"><textarea name="" id="" rows={5} className='w-full bg-transparent text-base text-gray-500 font-lato border border-slate-200 focus:border-slate-300 focus:outline-0 rounded-md p-2' placeholder='description'></textarea></div>
                </div>
             </form>
+         </div>
+         <div className="">
+            <table className='w-full border'>
+               <thead>
+                  <tr>
+                     <th>Name</th>
+                     <th>Slug</th>
+                     <th>Description</th>
+                     <th>Action</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                  </tr>
+               </tbody>
+            </table>
          </div>
       </div>
    )

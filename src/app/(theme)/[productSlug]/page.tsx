@@ -1,23 +1,22 @@
+'use client'
 import ForWomen from "@/components/home-page/categories-for-men/ForWomen";
 import Image from "next/image";
+import ProductImage from "@/page-components/product/ProductImage";
+
+const images = ['/img-28.png', '/img-27.png', '/img-26.png']
 
 const ProductName = () => {
+
+   
+
    return (
       <div className="w-full theme-container">
          <div className="w-full">
-            <div className="flex flex-wrap">
-               <div className="w-6/12">
-                  <div className="w-full">
-                     <div className="flex flex-wrap">
-                        <div className="w-2/12 border">
-                        </div>
-                        <div className="w-10/12 aspect-[500/650] overflow-hidden p-4">
-                           <Image src="/img-28.png" width={600} height={850} alt="" className="w-full h-full object-cover" />
-                        </div>
-                     </div>
-                  </div>
+            <div className="flex flex-wrap -mx-4">
+               <div className="w-6/12 px-4">
+                <ProductImage/>
                </div>
-               <div className="w-6/12">
+               <div className="w-6/12 px-4">
                   <div className="w-full">
                      {/* <ul className="flex flex-wrap items-center text-sm space-x-3">
               <li>Shop</li>
@@ -25,7 +24,7 @@ const ProductName = () => {
               <li>Top</li>
             </ul> */}
 
-                     <h2 className="text-2xl text-[#3C4242] font-lato font-medium mb-6">
+                     <h2 className="text-2xl text-[#3C4242] font-lato font-medium mb-3">
                         Raven Hoodie With Black colored Design
                      </h2>
 
@@ -44,6 +43,7 @@ const ProductName = () => {
                               />
                            </svg>
                            <span>3.5</span>
+                           <span>(1,456 ratings)</span>
                         </li>
                         <li className="flex flex-nowrap items-center gap-1 text-sm font-lato">
                            <svg
@@ -59,9 +59,11 @@ const ProductName = () => {
                               <g />
                               <path d="M15.5 0h-14c-0.827 0-1.5 0.673-1.5 1.5v10c0 0.827 0.673 1.5 1.5 1.5h0.5v4.102l4.688-4.102h8.812c0.827 0 1.5-0.673 1.5-1.5v-10c0-0.827-0.673-1.5-1.5-1.5zM16 11.5c0 0.275-0.224 0.5-0.5 0.5h-9.188l-3.312 2.898v-2.898h-1.5c-0.276 0-0.5-0.225-0.5-0.5v-10c0-0.275 0.224-0.5 0.5-0.5h14c0.276 0 0.5 0.225 0.5 0.5v10zM3 3h11v1h-11v-1zM3 5h11v1h-11v-1zM3 7h6v1h-6v-1z" />
                            </svg>
-                           <span>120 comment</span>
+                           <span>120 review</span>
                         </li>
                      </ul>
+
+                     <div className="text-3xl font-bold font-lato text-black mb-4">$256.45 <span className="text-base text-gray-400 ms-2"><del>$258.89</del></span></div>
 
                      <p className="text-sm text-[#807D7E] font-lato font-normal mb-5">
                         100% Bio-washed Cotton – makes the fabric extra soft & silky.
@@ -244,7 +246,7 @@ const ProductName = () => {
                            <li>
                               <button
                                  type="button"
-                                 className="h-9 flex flex-nowrap gap-2 items-center bg-[#8A33FD] text-white *:font-lato *:text-base py-1.5 px-7 rounded"
+                                 className="h-9 flex flex-nowrap gap-2 items-center bg-sky-700 text-white *:font-lato *:text-base py-1.5 px-7 rounded"
                               >
                                  <svg
                                     stroke="currentColor"
@@ -291,13 +293,13 @@ const ProductName = () => {
                                  <span>Add Cart</span>
                               </button>
                            </li>
-                           <li>
+                           {/* <li>
                               <div
                                  className="h-9 flex flex-nowrap gap-2 items-center text-[#3C4242] font-lato text-base border border-[#3C4242] py-1.5 px-6 rounded"
                               >
                                  $ 350.26
                               </div>
-                           </li>
+                           </li> */}
                         </ul>
                      </div>
                      <hr className="h-[1.5px] bg-[#BEBCBD]" />
