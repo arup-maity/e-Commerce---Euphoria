@@ -25,6 +25,7 @@
     "sass": "^1.71.1",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^2.2.1",
+    "usehooks-ts": "^3.1.0",
     "zod": "^3.22.5"
   },
   "devDependencies": {

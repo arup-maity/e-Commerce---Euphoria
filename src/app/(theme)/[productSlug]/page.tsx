@@ -12,11 +12,11 @@ const ProductName = () => {
    return (
       <div className="w-full theme-container">
          <div className="w-full">
-            <div className="flex flex-wrap -mx-4">
-               <div className="w-6/12 px-4">
+            <div className="flex flex-wrap -m-4">
+               <div className="w-full lg:w-6/12 p-4">
                 <ProductImage/>
                </div>
-               <div className="w-6/12 px-4">
+               <div className="w-full lg:w-6/12 p-4">
                   <div className="w-full">
                      {/* <ul className="flex flex-wrap items-center text-sm space-x-3">
               <li>Shop</li>
