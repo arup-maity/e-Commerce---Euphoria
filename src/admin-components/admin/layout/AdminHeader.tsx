@@ -5,7 +5,7 @@ import { IoIosMenu } from "react-icons/io";
 
 interface HeaderProps { }
 
-const SellerHeader: React.FC<HeaderProps> = () => {
+const AdminHeader: React.FC<HeaderProps> = () => {
    return (
       <div className="bg-white dark:bg-dark-section rounded px-5">
          <div className="flex items-center justify-between h-14">
@@ -32,4 +32,4 @@ const SellerHeader: React.FC<HeaderProps> = () => {
    );
 };
 
-export default SellerHeader;
+export default AdminHeader;
