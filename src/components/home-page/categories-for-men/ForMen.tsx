@@ -44,14 +44,14 @@ const ForMen = () => {
    const [productList, setProductList] = useState([])
    useLayoutEffect(() => {
       getProduct()
-   })
+   }, [])
    async function getProduct() {
       try {
          const responce = await productInstance.get(`/product-by-category`)
          if (responce.data.success) {
             setProductList(responce.data.productByCategory)
          }
-         console.log('Product retrieved successfully', responce.data)
+         // console.log('Product retrieved successfully', responce.data)
       } catch (error) {
          console.log(error.message);
       }

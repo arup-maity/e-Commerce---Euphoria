@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Slider from "react-slick";
 // Import css files
 import "slick-carousel/slick/slick.css";
@@ -9,8 +9,12 @@ import { title } from "process";
 import Link from "next/link";
 
 import './banner.scss'
+import { axiosInstance } from "@/config/axios";
 
 const Banner = () => {
+
+   const [bannerList, setBannerList] = useState([])
+
    var settings = {
       dots: true,
       infinite: true,
@@ -19,14 +23,31 @@ const Banner = () => {
       slidesToShow: 1,
       slidesToScroll: 1
    };
+
+   useLayoutEffect(() => {
+      getBannerList()
+   }, [])
+
+   async function getBannerList() {
+      try {
+         // const { data } = await axiosInstance.get(`/banner/all-banners`)
+         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/banner/all-banners`)
+         const re = await res.json()
+         console.log(re)
+         setBannerList(re.banners)
+      } catch (error) {
+         console.log('Failed to get banner list', error);
+      }
+   }
+
    return (
       <div className="w-full overflow-hidden">
          <Slider {...settings} className="banner-slider">
-            {BannerData.map((banner, index) => {
+            {bannerList?.map((banner, index) => {
                return (
                   <div key={index}>
                      <Link href='/'>
-                        <div style={{ backgroundImage: `url("/banner-3.jpg")` }} className="aspect-[20/9] bg-cover bg-center bg-no-repeat w-full"></div>
+                        <div style={{ backgroundImage: `url(${banner?.image?.url})` }} className="aspect-[20/9] bg-cover bg-center bg-no-repeat w-full"></div>
                      </Link>
                   </div>
                );

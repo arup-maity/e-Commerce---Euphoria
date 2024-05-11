@@ -200,6 +200,30 @@ const SidebarMenu: SidebarMenuItem[] = [
          },
       ]
    },
+   {
+      id: "home-page",
+      title: "Home Page",
+      icon: "d",
+      permissions: ["administrator", "admin"],
+      children: [
+         {
+            id: "banner",
+            title: "Banner",
+            icon: "d",
+            permissions: ["admin", "editor"],
+            Link: "/admin/home-page/banner",
+            navLink: "/admin/home-page/banner",
+         },
+         {
+            id: "top-brands",
+            title: "Top Brands",
+            icon: "d",
+            permissions: ["admin", "editor"],
+            Link: "/admin/home-page/top-brands",
+            navLink: "/admin/home-page/top-brands",
+         },
+      ]
+   },
 ];
 
 export default SidebarMenu;

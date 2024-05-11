@@ -51,7 +51,7 @@
    transition: padding-inline-start 0.2s ease-in-out;
    will-change: padding-inline-start;
 
-   @apply max-lg:!ps-0;
+   /* @apply max-lg: !ps-0; */
 }
 
 .webx-admin-panel .webx-admin-header {
@@ -132,3 +132,7 @@
       inline-size: 80px;
    }
 } */
+
+.reactEasyCrop_Container {
+   z-index: 99999;
+}
