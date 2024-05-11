@@ -1,43 +1,30 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 import { RiArrowUpSLine, RiArrowDownSLine } from "react-icons/ri";
 
-const ProductImage = () => {
-   const images = [
-      "/img-28.png",
-      "/img-27.png",
-      "/img-26.png",
-      "/img-28.png",
-      "/img-27.png",
-      "/img-26.png",
-      "/img-28.png",
-      "/img-27.png",
-      "/img-26.png",
-      "/img-28.png",
-      "/img-27.png",
-      "/img-26.png"
-   ];
+interface PropsType {
+   gallery: string[];
+   thumbnail: object
+}
+const ProductImage: React.FC<PropsType> = ({ gallery = [], thumbnail = {} }) => {
 
-   const [currentImage, setCurrentImage] = useState(images[0]);
+   const [currentImage, setCurrentImage] = useState(thumbnail);
    const [translateY, setTranslateY] = useState<number>(0);
    const [imageWidth, setImageWidth] = useState<number>(100)
    const [imageHeight, setImageHeight] = useState<number>(100)
 
-   const imageCount = images.length;
+   const imageCount = gallery.length;
    const roundCount = Math.floor(imageCount / 5) * 5
    const restCount = imageCount - roundCount
    const slideLength = imageCount * imageHeight
 
-   console.log('translateY', translateY)
-   console.log('slideLength', slideLength)
-   console.log('imageCount', imageCount)
-   console.log('roundCount', roundCount)
-   console.log('restCount', restCount)
+   // console.log('translateY', translateY)
+   // console.log('slideLength', slideLength)
+   // console.log('imageCount', imageCount)
+   // console.log('roundCount', roundCount)
+   // console.log('restCount', restCount)
 
 
    function handleNextClick() {
@@ -72,14 +59,14 @@ const ProductImage = () => {
                               className=" transition-transform duration-500 ease-in-out"
                               style={{ transform: `translateY(${translateY}px)` }}
                            >
-                              {images?.map((image, index) => (
+                              {gallery?.map((image, index) => (
                                  <div
                                     key={index}
                                     className="w-[100px] h-[100px] p-2"
                                     onClick={() => setCurrentImage(image)}
                                  >
                                     <Image
-                                       src={image}
+                                       src={image?.url}
                                        width={282}
                                        height={370}
                                        alt=""
@@ -97,9 +84,9 @@ const ProductImage = () => {
                      {/*  */}
                   </div>
                </div>
-               <div className="w-10/12 aspect-[500/650]">
+               <div className="w-10/12 aspect-[325/415] bg-gray-100">
                   <Image
-                     src={currentImage}
+                     src={currentImage?.url}
                      width={600}
                      height={850}
                      alt=""

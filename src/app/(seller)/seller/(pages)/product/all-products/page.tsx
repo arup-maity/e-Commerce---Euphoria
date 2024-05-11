@@ -1,6 +1,7 @@
 'use client'
 import { productInstance } from '@/config/axios'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useLayoutEffect, useState } from 'react'
 
 const AllProducts = () => {
@@ -62,7 +63,7 @@ const AllProducts = () => {
                               </td>
                               <td className='p-2'>
                                  <ul>
-                                    <li>Edit</li>
+                                    <li><Link href={`/seller/product/add-product?edit=true&id=${product.id}`} >Edit</Link></li>
                                     <li onClick={() => handleDelete(product)}>Delete</li>
                                  </ul>
                               </td>

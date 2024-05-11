@@ -1,31 +1,43 @@
-'use client'
 import ForWomen from "@/components/home-page/categories-for-men/ForWomen";
-import Image from "next/image";
 import ProductImage from "@/page-components/product/ProductImage";
+import { productInstance } from "@/config/axios";
 
-const images = ['/img-28.png', '/img-27.png', '/img-26.png']
 
-const ProductName = () => {
+async function getProduct(id: String) {
+   try {
+      const { data } = await productInstance.get(`/read-product/${id}`);
+      return data?.product
+   } catch (error) {
+      console.log('first error', error);
+      return null;
+   }
+}
 
-   
+const ProductName = async ({ params }) => {
+   const id = params.productSlug
+   const product = await getProduct(id)
+   // console.log('product==>', product)
 
    return (
       <div className="w-full theme-container">
          <div className="w-full">
+            <div className="my-2">
+               <ul className="flex flex-wrap items-center space-x-2 *:text-sm *:text-gray-500 *:font-lato">
+                  <li>Home</li>
+                  <li>/</li>
+                  <li>Product</li>
+                  <li>/</li>
+                  <li>{product?.title}</li>
+               </ul>
+            </div>
             <div className="flex flex-wrap -m-4">
                <div className="w-full lg:w-6/12 p-4">
-                <ProductImage/>
+                  <ProductImage gallery={product?.gallery} thumbnail={product?.thumbnail} />
                </div>
                <div className="w-full lg:w-6/12 p-4">
                   <div className="w-full">
-                     {/* <ul className="flex flex-wrap items-center text-sm space-x-3">
-              <li>Shop</li>
-              <li>Woman</li>
-              <li>Top</li>
-            </ul> */}
-
                      <h2 className="text-2xl text-[#3C4242] font-lato font-medium mb-3">
-                        Raven Hoodie With Black colored Design
+                        {product?.title}
                      </h2>
 
                      <ul className="flex flex-nowrap items-center gap-6 *:text-[#807D7E] mb-5">
@@ -42,8 +54,8 @@ const ProductName = () => {
                                  fill="#EDD146"
                               />
                            </svg>
-                           <span>3.5</span>
-                           <span>(1,456 ratings)</span>
+                           <span>{product?.rating}</span>
+                           <span>({product?.ratingCount} ratings)</span>
                         </li>
                         <li className="flex flex-nowrap items-center gap-1 text-sm font-lato">
                            <svg
@@ -59,20 +71,15 @@ const ProductName = () => {
                               <g />
                               <path d="M15.5 0h-14c-0.827 0-1.5 0.673-1.5 1.5v10c0 0.827 0.673 1.5 1.5 1.5h0.5v4.102l4.688-4.102h8.812c0.827 0 1.5-0.673 1.5-1.5v-10c0-0.827-0.673-1.5-1.5-1.5zM16 11.5c0 0.275-0.224 0.5-0.5 0.5h-9.188l-3.312 2.898v-2.898h-1.5c-0.276 0-0.5-0.225-0.5-0.5v-10c0-0.275 0.224-0.5 0.5-0.5h14c0.276 0 0.5 0.225 0.5 0.5v10zM3 3h11v1h-11v-1zM3 5h11v1h-11v-1zM3 7h6v1h-6v-1z" />
                            </svg>
-                           <span>120 review</span>
+                           <span>{product?.review} review</span>
                         </li>
                      </ul>
 
-                     <div className="text-3xl font-bold font-lato text-black mb-4">$256.45 <span className="text-base text-gray-400 ms-2"><del>$258.89</del></span></div>
+                     <div className="text-3xl font-bold font-lato text-black mb-4">${product?.price?.price}<span className="text-base text-gray-400 ms-3"><del>${product?.price?.regularPrice}</del></span></div>
 
-                     <p className="text-sm text-[#807D7E] font-lato font-normal mb-5">
-                        100% Bio-washed Cotton – makes the fabric extra soft & silky.
-                        Flexible ribbed crew neck. Precisely stitched with no pilling & no
-                        fading. Provide all-time comfort. Anytime, anywhere. Infinite
-                        range of matte-finish HD prints.
-                     </p>
+                     <div dangerouslySetInnerHTML={{ __html: `${product?.shortDescription}` }} className="text-base text-[#807D7E] font-lato font-normal mb-5"></div>
 
-                     <div className="mb-4">
+                     {/* <div className="mb-4">
                         <div className="text-base text-[#3F4646] font-lato mb-1">
                            Color
                         </div>
@@ -239,7 +246,7 @@ const ProductName = () => {
                               </label>
                            </li>
                         </ul>
-                     </div>
+                     </div> */}
 
                      <div className="mb-4">
                         <ul className="flex flex-nowrap gap-4 items-center">
@@ -309,20 +316,9 @@ const ProductName = () => {
          </div>
          <div className="w-full">
             <div className="w-full !py-10">
-               <div className="text-xl text-[#3c4242] font-lato font-bold leading-none border-l-4 border-[#8a33fd] pl-4 mb-10">Product Description</div>
-               <div className="text-lg mb-4">Description</div>
-               <div className="font-lato text-base text-gray-600">
+               <div className="text-xl text-[#3c4242] font-lato font-bold leading-none border-l-4 border-[#8a33fd] pl-4 mb-5">Product Description</div>
 
-                  <div className="flex flex-wrap lg:flex-nowrap gap-4">
-                     <div className="w-full lg:w-auto space-y-4">
-                        <p>100% Bio-washed Cotton – makes the fabric extra soft & silky. Flexible ribbed crew neck. Precisely stitched with no pilling & no fading. Provide all-time comfort. Anytime, anywhere. Infinite range of matte-finish HD prints.</p>
-                        <p>100% Bio-washed Cotton – makes the fabric extra soft & silky. Flexible ribbed crew neck. Precisely stitched with no pilling & no fading. Provide all-time comfort. Anytime, anywhere. Infinite range of matte-finish HD prints.</p>
-                        <p>100% Bio-washed Cotton – makes the fabric extra soft & silky. Flexible ribbed crew neck. Precisely stitched with no pilling & no fading. Provide all-time comfort. Anytime, anywhere. Infinite range of matte-finish HD prints.</p>
-                     </div>
-                     <img src="/img-1.png" alt="" className="aspect-video w-1/3" />
-                  </div>
-
-               </div>
+               <div dangerouslySetInnerHTML={{ __html: `${product?.description}` }} className="max-w-full font-lato prose text-gray-400"></div>
                <div className="text-xl text-[#3c4242] font-lato font-bold leading-none border-l-4 border-[#8a33fd] pl-4 mb-10">Related Products</div>
                <ForWomen />
             </div>
