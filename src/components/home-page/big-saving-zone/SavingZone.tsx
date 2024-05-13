@@ -6,12 +6,11 @@ import "slick-carousel/slick/slick-theme.css";
 import Link from "next/link";
 
 const SavingZone = () => {
-  var settings = {
-    dots: false,
-    infinite: true,
-    slidesToShow: 5,
-    slidesToScroll: 1
-  };
+
+
+   // async function get(params:type) {
+      
+   // }
 
   return (
     <div className="w-full">

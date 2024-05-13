@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Cropper from 'react-easy-crop'
 import getCroppedImg from './cropImage'
 
-const ImageCropper = ({ getBlob, inputImg }) => {
+const ImageCropper = ({ getBlob, inputImg ,aspect}) => {
    const [crop, setCrop] = useState({ x: 0, y: 0 })
    const [zoom, setZoom] = useState(1)
 
@@ -24,7 +24,7 @@ const ImageCropper = ({ getBlob, inputImg }) => {
          image={inputImg}
          crop={crop}
          zoom={zoom}
-         aspect={21 / 9}
+         aspect={aspect}
          onCropChange={setCrop}
          onCropComplete={onCropComplete}
          onZoomChange={setZoom}

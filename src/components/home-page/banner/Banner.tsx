@@ -33,7 +33,7 @@ const Banner = () => {
          // const { data } = await axiosInstance.get(`/banner/all-banners`)
          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/banner/all-banners`)
          const re = await res.json()
-         console.log(re)
+         // console.log(re)
          setBannerList(re.banners)
       } catch (error) {
          console.log('Failed to get banner list', error);
