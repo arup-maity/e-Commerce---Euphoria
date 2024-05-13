@@ -1,4 +1,5 @@
 'use client'
+import { DropDown } from "@/ui-components";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -13,10 +14,10 @@ const Header = () => {
       setShow(prev => !prev)
    }
    return (
-      <div className="w-full bg-white">
-         <div className="theme-container">
+      <>
+         <div className="theme-container w-full bg-[#002D58] sticky top-0 z-[9999]">
             <div className="h-20 flex items-center justify-around gap-4">
-               <div className="block lg:hidden" onClick={handleMenu}>
+               <div className="block lg:hidden text-white me-2" onClick={handleMenu}>
                   <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="2em" width="2em" xmlns="http://www.w3.org/2000/svg"><path d="M432 176H80c-8.8 0-16-7.2-16-16s7.2-16 16-16h352c8.8 0 16 7.2 16 16s-7.2 16-16 16zM432 272H80c-8.8 0-16-7.2-16-16s7.2-16 16-16h352c8.8 0 16 7.2 16 16s-7.2 16-16 16zM432 368H80c-8.8 0-16-7.2-16-16s7.2-16 16-16h352c8.8 0 16 7.2 16 16s-7.2 16-16 16z"></path></svg>
                </div>
                <div className="logo">
@@ -54,10 +55,9 @@ const Header = () => {
                            </div>
                         </div>
                      }
-
                   </div>
                </div>
-               <ul className="flex space-x-3 *:w-11 *:h-11 *:bg-[#f6f6f6] *:justify-center *:items-center *:rounded-lg">
+               <ul className="flex items-center  gap-4 *:w-11 *:h-11 *:bg-[#f6f6f6] *:justify-center *:items-center *:rounded-lg">
                   <li role="button" className="hidden lg:flex">
                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -71,7 +71,7 @@ const Header = () => {
                         />
                      </svg>
                   </li>
-                  <li role="button" className="flex">
+                  <li role="button" className="hidden lg:flex">
                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                            d="M10.0007 11.6663C12.3018 11.6663 14.1673 9.80086 14.1673 7.49967C14.1673 5.19849 12.3018 3.33301 10.0007 3.33301C7.69946 3.33301 5.83398 5.19849 5.83398 7.49967C5.83398 9.80086 7.69946 11.6663 10.0007 11.6663ZM10.0007 11.6663C6.31875 11.6663 3.33398 13.9049 3.33398 16.6663M10.0007 11.6663C13.6825 11.6663 16.6673 13.9049 16.6673 16.6663"
@@ -93,21 +93,57 @@ const Header = () => {
                   </li>
                </ul>
             </div>
-            <div className="hidden lg:flex items-center space-x-7 pb-2">
-               <div className="">
-                  <ul className="flex items-center space-x-2 *:text-base *:font-lato">
-                     <li className="flex items-center gap-2 border border-transparent hover:border-slate-400 rounded-full px-4 py-1">
-                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg"><rect width="176" height="176" x="48" y="48" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="288" y="48" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="48" y="288" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="288" y="288" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect></svg>
+         </div>
+         <div className="relative w-full bg-[#F2F8FD] hidden lg:block">
+            <div className="theme-container flex items-center space-x-7 !py-2">
+               <ul className="flex items-center space-x-2 *:text-base *:font-lato">
+                  <DropDown tag="li" className="">
+                     <DropDown.Header id="item1" className="flex items-center gap-2 text-base border border-transparent hover:border-slate-400 rounded-full px-4 py-1">
+                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg"><rect width="176" height="176" x="48" y="48" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="288" y="48" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="48" y="288" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="288" y="288" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect></svg>
                         <span>Deperment</span>
                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5.22 8.22a.749.749 0 0 0 0 1.06l6.25 6.25a.749.749 0 0 0 1.06 0l6.25-6.25a.749.749 0 1 0-1.06-1.06L12 13.939 6.28 8.22a.749.749 0 0 0-1.06 0Z"></path></svg>
-                     </li>
-                     <li className="flex items-center gap-2 border border-transparent hover:border-slate-400 rounded-full px-4 py-1">
-                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><rect width="176" height="176" x="48" y="48" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="288" y="48" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="48" y="288" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="288" y="288" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect></svg>
+                     </DropDown.Header>
+                     <DropDown.Menu id="item1" tag="div" className="bg-white p-0 top-[42px] rounded border-0">
+                        <div className="w-full h-[500px] overflow-hidden overflow-y-scroll">
+                           <ul className="flex flex-col space-y-1 p-5">
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                           </ul>
+                        </div>
+                     </DropDown.Menu>
+                  </DropDown>
+                  <DropDown tag="li" className="">
+                     <DropDown.Header id="item2" className="flex items-center gap-2 text-base border border-transparent hover:border-slate-400 rounded-full px-4 py-1">
+                        <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg"><rect width="176" height="176" x="48" y="48" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="288" y="48" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="48" y="288" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect><rect width="176" height="176" x="288" y="288" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" rx="20" ry="20"></rect></svg>
                         <span>Service</span>
                         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5.22 8.22a.749.749 0 0 0 0 1.06l6.25 6.25a.749.749 0 0 0 1.06 0l6.25-6.25a.749.749 0 1 0-1.06-1.06L12 13.939 6.28 8.22a.749.749 0 0 0-1.06 0Z"></path></svg>
-                     </li>
-                  </ul>
-               </div>
+                     </DropDown.Header>
+                     <DropDown.Menu id="item2" tag="div" className="bg-white p-0 top-[42px] rounded border-0">
+                        <div className="w-full h-[500px] overflow-hidden overflow-y-scroll">
+                           <ul className="flex flex-col space-y-1 p-5">
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                              <DropDown.Item>Deafult Category</DropDown.Item>
+                           </ul>
+                        </div>
+                     </DropDown.Menu>
+                  </DropDown>
+               </ul>
                <span className="inline-flex w-0.5 h-5 bg-slate-400"></span>
                <div className="">
                   <ul className="flex items-center space-x-7 *:text-base *:font-lato *:text-slate-500">
@@ -120,7 +156,7 @@ const Header = () => {
                </div>
             </div>
          </div>
-      </div>
+      </>
    );
 };
 
