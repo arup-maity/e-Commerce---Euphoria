@@ -22,7 +22,7 @@ const Brands = () => {
    return (
       <div className="w-full bg-[#323232] text-white text-center space-y-10 p-12 rounded-xl">
          <div className="text-4xl font-bold">Top Brands Deal</div>
-         <p className="text-base text-white font-normal font-lato">{topBrands.tagline}</p>
+         <p className="text-base text-white font-normal font-lato">{topBrands?.tagline}</p>
          <ul className="w-full flex flex-nowrap items-center justify-center space-x-6">
             {
                topBrands?.images?.map((image, index) => (

@@ -181,7 +181,7 @@ const AddProduct = () => {
       const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
       const invalidFiles = Array.from(files).filter((file) => !validTypes.includes(file.type));
       if (invalidFiles.length) {
-         console.error(`Invalid file type(s): ${invalidFiles.map((file) => file.name).join(', ')}`);
+         // console.error(`Invalid file type(s): ${invalidFiles.map((file) => file.name).join(', ')}`);
          return; // Prevent invalid images from being added
       }
 

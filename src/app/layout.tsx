@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Toaster, toast } from 'sonner';
 import { Inter, Lato } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/config/Context";
 
 const inter = Inter({
    subsets: ["latin"],
@@ -28,8 +29,10 @@ export default function RootLayout({
    return (
       <html lang="en">
          <body className={`${inter.className} ${lato.variable}`}>
-            <Toaster />
-            {children}
+            <AuthProvider>
+               <Toaster />
+               {children}
+            </AuthProvider>
          </body>
       </html>
    );

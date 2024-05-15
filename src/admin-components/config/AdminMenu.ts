@@ -165,8 +165,8 @@ const SidebarMenu: SidebarMenuItem[] = [
       id: "profile",
       title: "Profile",
       icon: "p",
-      Link: "/seller/profile",
-      navLink: "/seller/profile"
+      Link: "/admin/profile",
+      navLink: "/admin/profile"
    },
    // {
    //    id: "product",
@@ -221,6 +221,31 @@ const SidebarMenu: SidebarMenuItem[] = [
             permissions: ["admin", "editor"],
             Link: "/admin/home-page/top-brands",
             navLink: "/admin/home-page/top-brands",
+         },
+         {
+            id: "new-arrival",
+            title: "New Arrival",
+            icon: "d",
+            permissions: ["admin", "editor"],
+            Link: "/admin/home-page/new-arrival",
+            navLink: "/admin/home-page/new-arrival",
+         },
+      ]
+   },
+   {
+      id: "users",
+      title: "Users",
+      icon: "p",
+      Link: "/admin/users",
+      navLink: "/admin/users",
+      children: [
+         {
+            id: "all-users",
+            title: "All Users",
+            icon: "d",
+            permissions: ["admin", "editor"],
+            Link: "/admin/users/all-users",
+            navLink: "/admin/users/all-users",
          },
       ]
    },
