@@ -1,11 +1,11 @@
 'use client'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from "zod";
 import { adminInstance } from '@/config/axios';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type Inputs = {
    fullName: string
@@ -15,6 +15,11 @@ type Inputs = {
 
 const EditUser = () => {
    const router = useRouter()
+
+   const query = useSearchParams()
+   const edit = query.get('edit')
+   const id = query.get('id')
+
    const schema = z.object({
       fullname: z.string().min(1, { message: "This field has to be filled." }).regex(/^[a-zA-Z\s]*$/, {
          message: "Your name must only contain letters.",
@@ -43,13 +48,30 @@ const EditUser = () => {
          }
       }
    }
+
+   useLayoutEffect(() => {
+      if (edit && id) {
+         getUser(id)
+      }
+   }, [id, edit])
+
+   async function getUser(id: string) {
+      try {
+         const user = await adminInstance.get(`/user/read-user/${id}`)
+         console.log('user:', user)
+      } catch (error) {
+         console.log('API request error:', error)
+      }
+   }
+
    return (
       <div className='bg-white rounded p-4'>
+         <div className="text-lg font-medium mb-5">Add New Admin User</div>
          <form onSubmit={handleSubmit(onSubmit)} className='w-8/12'>
             <div className="grid gap-4">
                <div className="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4">
                   <div className="">
-                     <label htmlFor="" className='block text-sm text-gray-500 font-lato mb-2'>Full Name</label>
+                     <label htmlFor="" className='block text-base text-gray-500 font-lato mb-2'>Full Name</label>
                   </div>
                   <div className="md:col-span-3 w-full text-base">
                      <input {...register("fullName")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' />
@@ -58,7 +80,7 @@ const EditUser = () => {
                </div>
                <div className="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4">
                   <div className="">
-                     <label htmlFor="" className='block text-sm text-gray-500 font-lato mb-2'>Email</label>
+                     <label htmlFor="" className='block text-base text-gray-500 font-lato mb-2'>Email</label>
                   </div>
                   <div className="md:col-span-3 w-full text-base">
                      <input {...register("email")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' />
@@ -67,7 +89,7 @@ const EditUser = () => {
                </div>
                <div className="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4">
                   <div className="">
-                     <label htmlFor="" className='block text-sm text-gray-500 font-lato mb-2'>Password</label>
+                     <label htmlFor="" className='block text-base text-gray-500 font-lato mb-2'>Password</label>
                   </div>
                   <div className="md:col-span-3 w-full text-base">
                      <input {...register("password")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' />

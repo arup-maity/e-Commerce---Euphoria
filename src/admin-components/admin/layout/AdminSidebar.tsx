@@ -5,6 +5,7 @@ import Link from "next/link";
 import clsx from "@/utils/clsx";
 import { RiArrowRightSLine } from "react-icons/ri";
 import SidebarMenu from "@/admin-components/config/AdminMenu";
+import { useSession } from "@/config/Context";
 
 interface NavItemProps {
    item?: any;
@@ -42,11 +43,27 @@ interface SidebarProps {
    menuHover?: boolean;
 }
 
+function filterSidebarMenu(userRole, menuItems) {
+   return menuItems.filter(menuItem => {
+      // Check if user has the required permission for the main menu item
+      const hasPermission = !menuItem.permissions || userRole.some(role => menuItem.permissions.includes(role));
+
+      // If there are child menus, filter them recursively
+      const filteredChildren = menuItem.children ? filterSidebarMenu(userRole, menuItem.children) : [];
+
+      // Return the menu item if it's allowed or has allowed children
+      return hasPermission || filteredChildren.length > 0;
+   });
+}
+
 const SellerSidebar: React.FC<SidebarProps> = ({ menuCollapsed, menuHover }) => {
    const [groupOpen, setGroupOpen] = useState<string[]>([]);
    const [groupActive, setGroupActive] = useState<string[]>([]);
    const [currentActiveGroup, setCurrentActiveGroup] = useState<string[]>([]);
    const [activeItem, setActiveItem] = useState<string | null>(null);
+
+   const auth = useSession()
+   const filteredMenu = filterSidebarMenu([`${auth?.role}`], SidebarMenu);
 
    return (
       <div className="sidebar-menu-content w-full h-[calc(100%-60px)]">
