@@ -28,11 +28,36 @@ interface SidebarMenuItem {
 
 const SidebarMenu: SidebarMenuItem[] = [
    {
-      id: "profile",
-      title: "Profile",
-      icon: "p",
-      Link: "/admin/profile",
-      navLink: "/admin/profile"
+      id: "home-page",
+      title: "Home Page",
+      icon: "d",
+      permissions: ["administrator", "admin"],
+      children: [
+         {
+            id: "banner",
+            title: "Banner",
+            icon: "i",
+            permissions: ["admin", "editor"],
+            Link: "/admin/home-page/banner",
+            navLink: "/admin/home-page/banner",
+         },
+         {
+            id: "top-brands",
+            title: "Top Brands",
+            icon: "d",
+            permissions: ["admin", "superAdmin"],
+            Link: "/admin/home-page/top-brands",
+            navLink: "/admin/home-page/top-brands",
+         },
+         {
+            id: "new-arrival",
+            title: "New Arrival",
+            icon: "d",
+            permissions: ["admin", "superAdmin"],
+            Link: "/admin/home-page/new-arrival",
+            navLink: "/admin/home-page/new-arrival",
+         },
+      ]
    },
    {
       id: "product",
@@ -59,36 +84,11 @@ const SidebarMenu: SidebarMenuItem[] = [
       ]
    },
    {
-      id: "home-page",
-      title: "Home Page",
-      icon: "d",
-      permissions: ["administrator", "admin"],
-      children: [
-         {
-            id: "banner",
-            title: "Banner",
-            icon: "d",
-            permissions: ["admin", "editor"],
-            Link: "/admin/home-page/banner",
-            navLink: "/admin/home-page/banner",
-         },
-         {
-            id: "top-brands",
-            title: "Top Brands",
-            icon: "d",
-            permissions: ["admin", "superAdmin"],
-            Link: "/admin/home-page/top-brands",
-            navLink: "/admin/home-page/top-brands",
-         },
-         {
-            id: "new-arrival",
-            title: "New Arrival",
-            icon: "d",
-            permissions: ["admin", "superAdmin"],
-            Link: "/admin/home-page/new-arrival",
-            navLink: "/admin/home-page/new-arrival",
-         },
-      ]
+      id: "profile",
+      title: "Profile",
+      icon: "p",
+      Link: "/admin/profile",
+      navLink: "/admin/profile"
    },
    {
       id: "users",
@@ -105,6 +105,13 @@ const SidebarMenu: SidebarMenuItem[] = [
             Link: "/admin/users/all-users",
             navLink: "/admin/users/all-users",
          },
+         {
+            id: "seller-applications",
+            title: "Seller Applications",
+            icon: "d",
+            Link: "/admin/users/seller-applications",
+            navLink: "/admin/users/seller-applications",
+         },
       ]
    },
    {
@@ -114,7 +121,6 @@ const SidebarMenu: SidebarMenuItem[] = [
       permissions: ["superAdmin"],
       Link: "/admin/role-management",
       navLink: "/admin/role-management",
-
    },
 ];
 

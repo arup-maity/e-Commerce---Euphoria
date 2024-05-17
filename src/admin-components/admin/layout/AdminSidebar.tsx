@@ -6,6 +6,7 @@ import clsx from "@/utils/clsx";
 import { RiArrowRightSLine } from "react-icons/ri";
 import SidebarMenu from "@/admin-components/config/AdminMenu";
 import { useSession } from "@/config/Context";
+import { BsCircle, BsChatDots } from "react-icons/bs";
 
 interface NavItemProps {
    item?: any;

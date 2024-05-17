@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from "zod";
-import { authInstance } from '@/config/axios';
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { sellerInstance } from '@/config/axios'
 
 type Inputs = {
    fullName: string
@@ -19,7 +19,6 @@ type Inputs = {
 const Register = () => {
    const router = useRouter()
    const [showPassword, setShowPassword] = useState(false)
-
    const schema = z.object({
       fullName: z.string().min(4, { message: "This field has to be filled." }),
       email: z.string().min(1, { message: "This field has to be filled." }).email("This is not a valid email."),
@@ -27,21 +26,21 @@ const Register = () => {
          message: "Your password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
       }),
       condition: z.boolean(),
+   }).refine(data => data.condition, {
+      message: "Accept conditions",
+      path: ["condition"]
    });
-   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-   } = useForm<Inputs>({
+   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
+      mode: 'onChange',
       resolver: zodResolver(schema),
    })
    const onSubmit: SubmitHandler<Inputs> = async (data) => {
-      if (data.condition) {
-         await authInstance.post(`/seller-register`, data)
-            .then((response) => {
-               if (response.data.success) router.push('/seller/login')
-            })
-            .catch((error) => console.log(error))
+      console.log('onSubmit', data)
+      try {
+         const res = await sellerInstance.post(`/auth/register`, data)
+         console.log('onSubmit', res)
+      } catch (error) {
+         console.log('error', error)
       }
    }
 
@@ -51,7 +50,7 @@ const Register = () => {
             <div className="w-full lg:w-7/12 hidden lg:block"></div>
             <div className="w-full lg:w-5/12 flex items-center justify-center">
                <div className="w-4/5">
-                  <Link href={process.env.NEXT_PUBLIC_API_URL + `/social-auth/google`} className="bg-gray-100 flex items-center justify-center flex-nowrap gap-5 py-2 rounded-md">
+                  <Link href={process.env.NEXT_PUBLIC_API_URL + `/seller/auth/google`} className="bg-gray-100 flex items-center justify-center flex-nowrap gap-5 py-2 rounded-md">
                      <FcGoogle size={25} />
                      <p className='text-sm text-gray-500'>Continue With Google</p>
                   </Link>
@@ -98,6 +97,10 @@ const Register = () => {
                            <input type="checkbox" {...register("condition")} className='me-2 w-4 h-4 cursor-pointer' />
                            Agree to our <Link href='/' className='underline underline-offset-2 px-2'>Terms of use</Link> and <Link href='/' className='underline underline-offset-2 px-2'>Privacy Policy</Link>
                         </label>
+                        {
+                           errors.condition &&
+                           <p className='text-sm text-red-500 font-lato mt-1'>{errors.condition?.message}</p>
+                        }
                      </div>
                      <button type="submit" className='w-full bg-indigo-400 text-white text-base text-center rounded-md py-2'>Register</button>
                   </form>

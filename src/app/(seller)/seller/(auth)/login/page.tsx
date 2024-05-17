@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import { FcGoogle } from "react-icons/fc";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from "zod";
-import { authInstance } from '@/config/axios';
+import { sellerInstance } from '@/config/axios';
 import { useRouter } from 'next/navigation'
 
 type Inputs = {
@@ -20,7 +20,7 @@ const Login = () => {
       email: z.string().min(1, { message: "This field has to be filled." }).email("This is not a valid email."),
       password: z.string().min(1, { message: "This field has to be filled." }).regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$/, {
          message: "Your password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
-      }),
+      })
    });
    const {
       register,
@@ -30,13 +30,15 @@ const Login = () => {
       resolver: zodResolver(schema),
    })
    const onSubmit: SubmitHandler<Inputs> = async (data) => {
-      await authInstance.post(`/seller-login`, data)
-         .then((response) => {
-            if (response.data?.success) {
-               router.push('/seller/dashboard')
-            }
-         })
-         .catch((error) => console.log(error))
+      try {
+         const res = await sellerInstance.post(`/auth/login`, data)
+         console.log('Submit', res)
+         if (res.data?.success) {
+            router.push('/seller')
+         }
+      } catch (error) {
+         console.log('Failed to submit', error)
+      }
    }
 
    return (
@@ -45,7 +47,7 @@ const Login = () => {
             <div className="w-full lg:w-7/12 hidden lg:block"></div>
             <div className="w-full lg:w-5/12 flex items-center justify-center">
                <div className="w-full md:w-4/5 p-4">
-                  <Link href={process.env.NEXT_PUBLIC_API_URL + `/social-auth/google`} className="bg-gray-100 flex items-center justify-center flex-nowrap gap-5 py-2 rounded-md">
+                  <Link href={process.env.NEXT_PUBLIC_API_URL + `/seller/google`} className="bg-gray-100 flex items-center justify-center flex-nowrap gap-5 py-2 rounded-md">
                      <FcGoogle size={25} />
                      <p className='text-sm text-gray-500'>Continue With Google</p>
                   </Link>
