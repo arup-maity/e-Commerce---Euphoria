@@ -3,57 +3,77 @@ import React from 'react'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from "zod";
+import { useRouter } from 'next/navigation';
+import { sellerInstance } from '@/config/axios';
 
 type Inputs = {
-   fullName: string
+   firstName: string
+   lastName: string
    email: string
    password: string
-   condition: boolean
+   confirmPassword: string
 }
-
-const FormOne = ({ onNext }) => {
+const FormOne = () => {
+   const router = useRouter();
    const schema = z.object({
-      fullName: z.string().min(4, { message: "This field has to be filled." }),
-      condition: z.boolean(),
+      firstName: z.string().trim().min(2, { message: "This field has to be filled." }),
+      lastName: z.string().trim().min(2, { message: "This field has to be filled." }),
+      email: z.string().trim().min(1, { message: "This field has to be filled." }).email("This is not a valid email."),
+      password: z.string().trim().min(1, { message: "This field has to be filled." }).regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$/, {
+         message: "Your password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
+      }),
+      confirmPassword: z.string().trim(),
+   }).refine(data => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"]
    })
    const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
       mode: 'onChange',
-      // resolver: zodResolver(schema),
+      resolver: zodResolver(schema),
    })
    const onSubmit: SubmitHandler<Inputs> = async (data) => {
       console.log('onSubmit', data)
-      onNext()
+      try {
+         const res = await sellerInstance.post(`/step/register`, data)
+         console.log('onSubmit', res)
+         router.push('/seller/register?step=2')
+      } catch (error) {
+         console.log('error', error)
+      }
    }
    return (
-      <div className='theme-container mt-10'>
-         <div className="">Step 1</div>
+      <div className=''>
+         <div className="text-lg font-lato font-semibold text-gray-600 mb-4">Register Account</div>
          <form onSubmit={handleSubmit(onSubmit)} className=''>
-            <div className="grid  space-y-4">
-               <div className="grid gap-4">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4">
-                     <div className="">
-                        <label htmlFor="" className='block text-base text-gray-500 font-lato mb-2'>FirstName</label>
-                     </div>
-                     <div className="md:col-span-3 w-full text-base">
-                        <input {...register("fullName")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' />
-                        {errors.fullName && <p className='text-sm text-red-500 font-lato mt-1'>{errors.fullName?.message}</p>}
-                     </div>
-                  </div>
+            <div className="space-y-4">
+               <div className="">
+                  <label htmlFor="" className='block text-base text-gray-500 font-lato mb-1'>FirstName</label>
+                  <input {...register("firstName")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' autoComplete='off' />
+                  {errors.firstName && <p className='text-sm text-red-500 font-lato mt-1'>{errors.firstName?.message}</p>}
                </div>
-               <div className="grid gap-4">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4">
-                     <div className="">
-                        <label htmlFor="" className='block text-base text-gray-500 font-lato mb-2'>LastName</label>
-                     </div>
-                     <div className="md:col-span-3 w-full text-base">
-                        <input {...register("fullName")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' />
-                        {errors.fullName && <p className='text-sm text-red-500 font-lato mt-1'>{errors.fullName?.message}</p>}
-                     </div>
-                  </div>
+               <div className="">
+                  <label htmlFor="" className='block text-base text-gray-500 font-lato mb-1'>LastName</label>
+                  <input {...register("lastName")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' autoComplete='off' />
+                  {errors.lastName && <p className='text-sm text-red-500 font-lato mt-1'>{errors.lastName?.message}</p>}
+               </div>
+               <div className="">
+                  <label htmlFor="" className='block text-base text-gray-500 font-lato mb-1'>Email</label>
+                  <input {...register("email")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' autoComplete='off' />
+                  {errors.email && <p className='text-sm text-red-500 font-lato mt-1'>{errors.email?.message}</p>}
+               </div>
+               <div className="">
+                  <label htmlFor="" className='block text-base text-gray-500 font-lato mb-1'>Password</label>
+                  <input {...register("password")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' autoComplete='off' />
+                  {errors.password && <p className='text-sm text-red-500 font-lato mt-1'>{errors.password?.message}</p>}
+               </div>
+               <div className="">
+                  <label htmlFor="" className='block text-base text-gray-500 font-lato mb-1'>Confirm Password</label>
+                  <input {...register("confirmPassword")} className='w-full h-10 text-base text-gray-500 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' autoComplete='off' />
+                  {errors.confirmPassword && <p className='text-sm text-red-500 font-lato mt-1'>{errors.confirmPassword?.message}</p>}
                </div>
             </div>
-            <div className="">
-               <button type="submit" className='flex justify-end border border-slate-500 rounded py-1 px-4'>Next</button>
+            <div className="flex justify-end mt-4">
+               <button type="submit" className=' border border-slate-500 rounded py-1 px-4'>Continue & Next</button>
             </div>
          </form>
       </div>

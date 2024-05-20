@@ -1,40 +1,59 @@
-import { cookies } from 'next/headers'
-import React from 'react'
+'use client'
+import { sellerInstance } from '@/config/axios'
+import React, { useLayoutEffect, useState } from 'react'
 
-async function getData() {
-   const cookieStore = cookies()
-   const token = cookieStore.get('token')?.value
-
-   const options = {
-      headers: {
-         'Authorization': `Bearer ${token}`
+const Profile = () => {
+   const [profileDetails, setProfileDetails] = useState({})
+   useLayoutEffect(() => {
+      getProfile()
+   }, [])
+   async function getProfile() {
+      try {
+         const { data } = await sellerInstance.get(`/profile`)
+         console.log('profile', data)
+         if (data.success) {
+            setProfileDetails(data.profile)
+         }
+      } catch (error) {
+         console.log('error', error)
       }
-   };
-   const url = process.env.NEXT_PUBLIC_API_URL + `/seller/seller-profile`
-
-   const response = await fetch(url, options)
-   const json = await response.json()
-   return json
-}
-const Profile = async () => {
-   const { profile } = await getData()
-
-
+   }
 
    return (
-      <>
-         <div>{profile?.fullName}</div>
-         <div className="flex gap-5">
-            <div>{profile?.email}</div>
-            <div className="">
-               <p className='text-blue-700'>Verify</p>
+      <div className='w-full bg-white rounded p-4'>
+         <div className="grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4">
+               <div className='block text-base text-gray-500 font-lato mb-2'>Full Name</div>
+               <div className="md:col-span-3 w-full text-base">
+                  {profileDetails.fullName}
+               </div>
             </div>
          </div>
-         <div className="">
-            {/* <div dangerouslySetInnerHTML={{ __html: profile?.displayName }} /> */}
-            {profile?.displayName}
+         <div className="grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4">
+               <div className='block text-base text-gray-500 font-lato mb-2'>Display Name</div>
+               <div className="md:col-span-3 w-full text-base">
+                  {profileDetails.displayName}
+               </div>
+            </div>
          </div>
-      </>
+         <div className="grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4">
+               <div className='block text-base text-gray-500 font-lato mb-2'>Email</div>
+               <div className="md:col-span-3 w-full text-base">
+                  {profileDetails.email}
+               </div>
+            </div>
+         </div>
+         <div className="grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-1 md:gap-4">
+               <div className='block text-base text-gray-500 font-lato mb-2'>Status</div>
+               <div className="md:col-span-3 w-full text-base">
+                  {profileDetails.status}
+               </div>
+            </div>
+         </div>
+      </div>
    )
 }
 

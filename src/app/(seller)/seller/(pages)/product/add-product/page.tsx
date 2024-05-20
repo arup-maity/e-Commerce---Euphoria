@@ -215,7 +215,7 @@ const AddProduct = () => {
             <div className="flex flex-wrap -m-4">
                <div className="w-full lg:w-3/12 p-4">
                   <label htmlFor="" className='text-sm text-slate-400 mb-2'>Thumbnail Image</label>
-                  <div className="relative w-52 aspect-[4/4] text-gray-50 border border-dashed">
+                  <div className="relative w-full max-w-52 aspect-[4/4] text-gray-50 border border-dashed">
                      {
                         thumbnailBlob ? <Image src={thumbnailBlob} width={100} height={125} alt='' className='w-full h-full object-contain' /> :
                            <Image src={productData?.thumbnail?.url} width={100} height={125} alt='' className='w-full h-full object-contain' />

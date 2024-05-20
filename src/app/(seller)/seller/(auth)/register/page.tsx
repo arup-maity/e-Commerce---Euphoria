@@ -1,114 +1,88 @@
 'use client'
-import React, { useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useForm, SubmitHandler } from "react-hook-form"
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from "zod";
-import { FcGoogle } from "react-icons/fc";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import FormOne from '@/admin-components/seller/steps/FormOne'
+import FormTwo from '@/admin-components/seller/steps/FormTwo'
+import FormThree from '@/admin-components/seller/steps/FormThree'
+import Final from '@/admin-components/seller/steps/Final'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useLayoutEffect, useState } from 'react'
 import { sellerInstance } from '@/config/axios'
-
-type Inputs = {
-   fullName: string
-   email: string
-   password: string
-   condition: boolean
-}
 
 const Register = () => {
    const router = useRouter()
-   const [showPassword, setShowPassword] = useState(false)
-   const schema = z.object({
-      fullName: z.string().min(4, { message: "This field has to be filled." }),
-      email: z.string().min(1, { message: "This field has to be filled." }).email("This is not a valid email."),
-      password: z.string().min(1, { message: "This field has to be filled." }).regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}$/, {
-         message: "Your password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
-      }),
-      condition: z.boolean(),
-   }).refine(data => data.condition, {
-      message: "Accept conditions",
-      path: ["condition"]
-   });
-   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({
-      mode: 'onChange',
-      resolver: zodResolver(schema),
-   })
-   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-      console.log('onSubmit', data)
+   const step = Number(useSearchParams().get('step')) || 1
+   const [tokenStep, setTokenStep] = useState(1)
+   const [loading, setLoading] = useState(true)
+
+   useLayoutEffect(() => {
+      checkToken()
+   }, [step])
+   const RenderStep = () => {
+      switch (step) {
+         case 1:
+            return <FormOne />
+         case 2:
+            return <FormTwo />
+         case 3:
+            return <FormThree />
+         case 4:
+            return <Final />
+         default:
+            return null;
+      }
+   };
+   async function checkToken() {
       try {
-         const res = await sellerInstance.post(`/auth/register`, data)
-         console.log('onSubmit', res)
+         const { data } = await sellerInstance.get(`/register/check-token`)
+         console.log('checkToken', data)
+         if (data.success) {
+            setTokenStep(data.tokenVerify.step)
+         }
       } catch (error) {
+         router.push('/seller/register?step=1')
          console.log('error', error)
       }
+      finally {
+         setLoading(false)
+      }
    }
-
+   if (loading) {
+      return (
+         <div>Loading...</div>
+      )
+   }
+   if (step !== tokenStep) {
+      return router.push(`/seller/register?step=${tokenStep}`)
+   }
    return (
-      <div className='w-full'>
-         <div className=" min-h-screen flex flex-wrap">
-            <div className="w-full lg:w-7/12 hidden lg:block"></div>
-            <div className="w-full lg:w-5/12 flex items-center justify-center">
-               <div className="w-4/5">
-                  <Link href={process.env.NEXT_PUBLIC_API_URL + `/seller/auth/google`} className="bg-gray-100 flex items-center justify-center flex-nowrap gap-5 py-2 rounded-md">
-                     <FcGoogle size={25} />
-                     <p className='text-sm text-gray-500'>Continue With Google</p>
-                  </Link>
-                  <div className="my-5 relative w-full text-center before:absolute before:border-b-2 before:border-slate-100 before:w-full before:right-0 before:top-[10px] before:-z-10">
-                     <span className='bg-white text-sm text-gray-500 px-3'>OR</span>
-                  </div>
-                  <form onSubmit={handleSubmit(onSubmit)} className=''>
-                     <fieldset className='mb-4'>
-                        <label htmlFor="fillName" className='block text-base text-gray-500 font-lato mb-1.5'>FullName</label>
-                        <input {...register("fullName")} className='w-full h-10 text-base text-gray-700 font-lato border border-slate-200 focus:outline-0 rounded-md p-3' autoComplete='off' />
-                        {
-                           errors.fullName &&
-                           <p className='text-sm text-red-500 font-lato mt-1'>{errors.fullName?.message}</p>
-                        }
-                     </fieldset>
-                     <fieldset className='mb-4'>
-                        <label htmlFor="email" className='block text-base text-gray-500 font-lato mb-1.5'>Email Address</label>
-                        <input {...register("email")} className='w-full h-10 text-base text-gray-700 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' autoComplete='off' />
-                        {
-                           errors.email &&
-                           <p className='text-sm text-red-500 font-lato mt-1'>{errors.email?.message}</p>
-                        }
-                     </fieldset>
-                     <fieldset className='mb-2'>
-                        <label htmlFor="password" className='block text-base text-gray-500 font-lato mb-1.5'>Password</label>
-                        <div className="relative">
-                           <input type={showPassword ? 'text' : 'password'} {...register("password")} className='w-full h-10 text-base text-gray-700 font-lato border border-slate-200 focus:outline-0 rounded-md p-4' autoComplete='off' />
-                           <span role='button' className='absolute top-3 right-3' onClick={() => setShowPassword(prev => !prev)}>
-                              {
-                                 showPassword ? <IoEyeOutline /> : <IoEyeOffOutline size='20' className='text-gray-400' />
-                              }
-                           </span>
-                        </div>
-                        {
-                           errors.password ?
-                              <p className='text-sm text-red-500 font-lato mt-1'>{errors.password?.message}</p> : <p className='text-sm text-gray-400 font-lato mt-1'>Use 8 or more characters with a mix of letters, numbers & symbols</p>
-                        }
-                     </fieldset>
-                     <div className="mb-12">
-                        <Link href='/' className='text-sm text-indigo-400 float-end'>Forget password ?</Link>
-                     </div>
-                     <div className="mb-4">
-                        <label htmlFor="condition" className='text-base text-gray-600 font-lato flex items-center cursor-pointer'>
-                           <input type="checkbox" {...register("condition")} className='me-2 w-4 h-4 cursor-pointer' />
-                           Agree to our <Link href='/' className='underline underline-offset-2 px-2'>Terms of use</Link> and <Link href='/' className='underline underline-offset-2 px-2'>Privacy Policy</Link>
-                        </label>
-                        {
-                           errors.condition &&
-                           <p className='text-sm text-red-500 font-lato mt-1'>{errors.condition?.message}</p>
-                        }
-                     </div>
-                     <button type="submit" className='w-full bg-indigo-400 text-white text-base text-center rounded-md py-2'>Register</button>
-                  </form>
-                  <p className='text-sm text-gray-500 font-lato mt-3'>Already have an  account? <Link href='/seller/login' className='underline'>Log in</Link></p>
-               </div>
+      <div className='max-w-3xl mx-auto p-4'>
+         <div className="w-full flex mb-4">
+            <div className="w-3/12 relative p-6">
+               <div className={`${step >= 1 ? 'bg-indigo-400' : 'bg-gray-400'} w-6 h-6 my-0 text-xs font-semibold text-white text-center leading-6  mx-auto rounded-full`}><span>1</span></div>
+               <div className="text-sm text-gray-500 font-medium text-center mt-2">Basic Details</div>
+               <div className={`absolute top-9 left-[50%] right-0 ml-5 h-[1px] border-t-2 ${step >= 1 ? 'border-indigo-300' : 'border-gray-300'}`}></div>
+            </div>
+            <div className="w-3/12 relative p-6">
+               <div className={`${step >= 2 ? 'bg-indigo-400' : 'bg-gray-400'} w-6 h-6 my-0 text-xs font-semibold text-white text-center leading-6  mx-auto rounded-full`}><span>2</span></div>
+               <div className="text-sm text-gray-500 font-medium text-center mt-2">Store Details</div>
+               <div className={`absolute top-9 left-0 right-[50%] mr-5 h-[1px] border-t-2 ${step >= 1 ? 'border-indigo-300' : 'border-gray-300'}`}></div>
+               <div className={`absolute top-9 left-[50%] right-0 ml-5 h-[1px] border-t-2 ${step >= 2 ? 'border-indigo-300' : 'border-gray-300'}`}></div>
+            </div>
+            <div className="w-3/12 relative p-6">
+               <div className={`${step >= 3 ? 'bg-indigo-400' : 'bg-gray-400'} w-6 h-6 my-0 text-xs font-semibold text-white text-center leading-6  mx-auto rounded-full`}><span>3</span></div>
+               <div className="text-sm text-gray-500 font-medium text-center mt-2">Bank Details</div>
+               <div className={`absolute top-9 left-0 right-[50%] mr-5 h-[1px] border-t-2 ${step >= 2 ? 'border-indigo-300' : 'border-gray-300'}`}></div>
+               <div className={`absolute top-9 left-[50%] right-0 ml-5 h-[1px] border-t-2 ${step >= 3 ? 'border-indigo-300' : 'border-gray-300'}`}></div>
+            </div>
+            <div className="w-3/12 relative p-6">
+               <div className={`${step >= 4 ? 'bg-indigo-400' : 'bg-gray-400'} w-6 h-6 my-0 text-xs font-semibold text-white text-center leading-6  mx-auto rounded-full`}><span>4</span></div>
+               <div className="text-sm text-gray-500 font-medium text-center mt-2">Final</div>
+               <div className={`absolute top-9 left-0 right-[50%] mr-5 h-[1px] border-t-2 ${step >= 3 ? 'border-indigo-300' : 'border-gray-300'}`}></div>
             </div>
          </div>
-      </div>
+         <div className="">
+            <RenderStep />
+         </div>
+      </div >
    )
 }
 
